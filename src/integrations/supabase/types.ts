@@ -14,16 +14,191 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      counselor_availability: {
+        Row: {
+          counselor_id: string
+          created_at: string | null
+          day_of_week: number
+          end_time: string
+          id: string
+          is_available: boolean | null
+          start_time: string
+        }
+        Insert: {
+          counselor_id: string
+          created_at?: string | null
+          day_of_week: number
+          end_time: string
+          id?: string
+          is_available?: boolean | null
+          start_time: string
+        }
+        Update: {
+          counselor_id?: string
+          created_at?: string | null
+          day_of_week?: number
+          end_time?: string
+          id?: string
+          is_available?: boolean | null
+          start_time?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "counselor_availability_counselor_id_fkey"
+            columns: ["counselor_id"]
+            isOneToOne: false
+            referencedRelation: "counselor_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      counselor_profiles: {
+        Row: {
+          bio: string | null
+          created_at: string | null
+          email: string
+          experience_years: number | null
+          full_name: string
+          hourly_rate: number | null
+          id: string
+          is_available: boolean | null
+          phone: string | null
+          profile_completion: number | null
+          profile_picture_url: string | null
+          qualifications: string | null
+          specialization: string[] | null
+          updated_at: string | null
+          user_id: string
+          verification_document_url: string | null
+          verification_status: string | null
+        }
+        Insert: {
+          bio?: string | null
+          created_at?: string | null
+          email: string
+          experience_years?: number | null
+          full_name: string
+          hourly_rate?: number | null
+          id?: string
+          is_available?: boolean | null
+          phone?: string | null
+          profile_completion?: number | null
+          profile_picture_url?: string | null
+          qualifications?: string | null
+          specialization?: string[] | null
+          updated_at?: string | null
+          user_id: string
+          verification_document_url?: string | null
+          verification_status?: string | null
+        }
+        Update: {
+          bio?: string | null
+          created_at?: string | null
+          email?: string
+          experience_years?: number | null
+          full_name?: string
+          hourly_rate?: number | null
+          id?: string
+          is_available?: boolean | null
+          phone?: string | null
+          profile_completion?: number | null
+          profile_picture_url?: string | null
+          qualifications?: string | null
+          specialization?: string[] | null
+          updated_at?: string | null
+          user_id?: string
+          verification_document_url?: string | null
+          verification_status?: string | null
+        }
+        Relationships: []
+      }
+      student_profiles: {
+        Row: {
+          career_goals: string | null
+          created_at: string | null
+          date_of_birth: string | null
+          email: string
+          full_name: string
+          grade: string | null
+          id: string
+          interests: string[] | null
+          phone: string | null
+          profile_completion: number | null
+          profile_picture_url: string | null
+          school: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          career_goals?: string | null
+          created_at?: string | null
+          date_of_birth?: string | null
+          email: string
+          full_name: string
+          grade?: string | null
+          id?: string
+          interests?: string[] | null
+          phone?: string | null
+          profile_completion?: number | null
+          profile_picture_url?: string | null
+          school?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          career_goals?: string | null
+          created_at?: string | null
+          date_of_birth?: string | null
+          email?: string
+          full_name?: string
+          grade?: string | null
+          id?: string
+          interests?: string[] | null
+          phone?: string | null
+          profile_completion?: number | null
+          profile_picture_url?: string | null
+          school?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "student" | "counselor" | "admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +325,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["student", "counselor", "admin"],
+    },
   },
 } as const
