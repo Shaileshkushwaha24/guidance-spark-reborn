@@ -15,18 +15,25 @@ export default function Auth() {
   const [loading, setLoading] = useState(false);
   const [resetEmail, setResetEmail] = useState("");
   const [resetDialogOpen, setResetDialogOpen] = useState(false);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const defaultTab = searchParams.get("tab") === "signup" ? "signup" : "signin";
 
   useEffect(() => {
-    const checkUser = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        navigate("/");
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session?.user) {
+        navigate("/profile");
       }
-    };
-    checkUser();
+    });
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        navigate("/profile");
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, [navigate]);
 
   const handleSignIn = async (e: React.FormEvent) => {
@@ -42,7 +49,7 @@ export default function Auth() {
       toast.error(error.message);
     } else {
       toast.success("Signed in successfully!");
-      navigate("/");
+      navigate("/profile");
     }
     setLoading(false);
   };
@@ -65,7 +72,7 @@ export default function Auth() {
       toast.error(error.message);
     } else {
       toast.success("Account created successfully!");
-      navigate("/");
+      navigate("/profile");
     }
     setLoading(false);
   };
@@ -104,12 +111,50 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-accent/5 to-background p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-3xl font-bold">Welcome Back</CardTitle>
-          <CardDescription>Sign in to your account or create a new one</CardDescription>
-        </CardHeader>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4">
+      <div className="w-full max-w-md space-y-8">
+        {/* Hero Section Above Auth */}
+        <div className="text-center space-y-4">
+          <div className="flex justify-center">
+            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center shadow-lg">
+              <span className="text-primary-foreground font-bold text-3xl">PF</span>
+            </div>
+          </div>
+          <div>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+              PathFinder
+            </h1>
+            <p className="text-muted-foreground mt-2">
+              Discover Your Future, Shape Your Career
+            </p>
+          </div>
+          <div className="flex justify-center gap-6 text-sm">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                <span className="text-primary font-bold">1</span>
+              </div>
+              <span className="text-xs">Create Profile</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                <span className="text-primary font-bold">2</span>
+              </div>
+              <span className="text-xs">Get Guidance</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                <span className="text-primary font-bold">3</span>
+              </div>
+              <span className="text-xs">Achieve Goals</span>
+            </div>
+          </div>
+        </div>
+
+        <Card className="w-full">
+          <CardHeader className="space-y-1 text-center">
+            <CardTitle className="text-2xl font-bold">Get Started</CardTitle>
+            <CardDescription>Sign in or create an account to begin your journey</CardDescription>
+          </CardHeader>
         <CardContent>
           <Tabs defaultValue={defaultTab} className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-4">
@@ -245,7 +290,8 @@ export default function Auth() {
             Google
           </Button>
         </CardContent>
-      </Card>
+        </Card>
+      </div>
     </div>
   );
 }

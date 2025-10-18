@@ -1,4 +1,4 @@
-import { Home, Compass, BookOpen, CheckSquare, TrendingUp, LogIn, LogOut } from "lucide-react";
+import { Home, Compass, BookOpen, CheckSquare, TrendingUp, LogIn, LogOut, User as UserIcon } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,7 @@ interface SidebarProps {
 
 const navItems = [
   { icon: Home, label: "Home", path: "/" },
+  { icon: UserIcon, label: "Profile", path: "/profile" },
   { icon: Compass, label: "Career Paths", path: "/careers" },
   { icon: BookOpen, label: "Study Materials", path: "/materials" },
   { icon: CheckSquare, label: "Skill Quizzes", path: "/quizzes" },
