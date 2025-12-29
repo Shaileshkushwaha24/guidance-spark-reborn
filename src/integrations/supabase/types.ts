@@ -60,6 +60,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "counseling_sessions_counselor_id_fkey"
+            columns: ["counselor_id"]
+            isOneToOne: false
+            referencedRelation: "public_counselor_profiles"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "counseling_sessions_student_id_fkey"
             columns: ["student_id"]
             isOneToOne: false
@@ -102,6 +109,13 @@ export type Database = {
             columns: ["counselor_id"]
             isOneToOne: false
             referencedRelation: "counselor_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "counselor_availability_counselor_id_fkey"
+            columns: ["counselor_id"]
+            isOneToOne: false
+            referencedRelation: "public_counselor_profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -215,6 +229,13 @@ export type Database = {
             columns: ["counselor_id"]
             isOneToOne: false
             referencedRelation: "counselor_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reviews_counselor_id_fkey"
+            columns: ["counselor_id"]
+            isOneToOne: false
+            referencedRelation: "public_counselor_profiles"
             referencedColumns: ["id"]
           },
           {
@@ -334,7 +355,109 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      public_counselor_profiles: {
+        Row: {
+          bio: string | null
+          certifications: string[] | null
+          experience_years: number | null
+          full_name: string | null
+          hourly_rate: number | null
+          id: string | null
+          is_available: boolean | null
+          languages: string[] | null
+          profile_picture_url: string | null
+          qualifications: string | null
+          rating: number | null
+          specialization: string[] | null
+          total_reviews: number | null
+          total_sessions: number | null
+          verification_status: string | null
+        }
+        Insert: {
+          bio?: string | null
+          certifications?: string[] | null
+          experience_years?: number | null
+          full_name?: string | null
+          hourly_rate?: number | null
+          id?: string | null
+          is_available?: boolean | null
+          languages?: string[] | null
+          profile_picture_url?: string | null
+          qualifications?: string | null
+          rating?: number | null
+          specialization?: string[] | null
+          total_reviews?: number | null
+          total_sessions?: number | null
+          verification_status?: string | null
+        }
+        Update: {
+          bio?: string | null
+          certifications?: string[] | null
+          experience_years?: number | null
+          full_name?: string | null
+          hourly_rate?: number | null
+          id?: string | null
+          is_available?: boolean | null
+          languages?: string[] | null
+          profile_picture_url?: string | null
+          qualifications?: string | null
+          rating?: number | null
+          specialization?: string[] | null
+          total_reviews?: number | null
+          total_sessions?: number | null
+          verification_status?: string | null
+        }
+        Relationships: []
+      }
+      public_reviews: {
+        Row: {
+          comment: string | null
+          counselor_id: string | null
+          created_at: string | null
+          id: string | null
+          rating: number | null
+          session_id: string | null
+        }
+        Insert: {
+          comment?: string | null
+          counselor_id?: string | null
+          created_at?: string | null
+          id?: string | null
+          rating?: number | null
+          session_id?: string | null
+        }
+        Update: {
+          comment?: string | null
+          counselor_id?: string | null
+          created_at?: string | null
+          id?: string | null
+          rating?: number | null
+          session_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_counselor_id_fkey"
+            columns: ["counselor_id"]
+            isOneToOne: false
+            referencedRelation: "counselor_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reviews_counselor_id_fkey"
+            columns: ["counselor_id"]
+            isOneToOne: false
+            referencedRelation: "public_counselor_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reviews_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: true
+            referencedRelation: "counseling_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       has_role: {
