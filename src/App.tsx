@@ -10,6 +10,7 @@ import Profile from "./pages/Profile";
 import Careers from "./pages/Careers";
 import Materials from "./pages/Materials";
 import Quizzes from "./pages/Quizzes";
+import QuizPage from "./pages/QuizPage";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/careers" element={<Layout><Careers /></Layout>} />
           <Route path="/materials" element={<Layout><Materials /></Layout>} />
           <Route path="/quizzes" element={<Layout><Quizzes /></Layout>} />
+          <Route path="/quiz/:quizId" element={<Layout><QuizPage /></Layout>} />
           <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
