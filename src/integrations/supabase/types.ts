@@ -14,6 +14,60 @@ export type Database = {
   }
   public: {
     Tables: {
+      counseling_sessions: {
+        Row: {
+          counselor_id: string
+          created_at: string | null
+          duration_minutes: number | null
+          id: string
+          meeting_link: string | null
+          notes: string | null
+          scheduled_at: string
+          status: string | null
+          student_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          counselor_id: string
+          created_at?: string | null
+          duration_minutes?: number | null
+          id?: string
+          meeting_link?: string | null
+          notes?: string | null
+          scheduled_at: string
+          status?: string | null
+          student_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          counselor_id?: string
+          created_at?: string | null
+          duration_minutes?: number | null
+          id?: string
+          meeting_link?: string | null
+          notes?: string | null
+          scheduled_at?: string
+          status?: string | null
+          student_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "counseling_sessions_counselor_id_fkey"
+            columns: ["counselor_id"]
+            isOneToOne: false
+            referencedRelation: "counselor_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "counseling_sessions_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "student_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       counselor_availability: {
         Row: {
           counselor_id: string
@@ -55,6 +109,7 @@ export type Database = {
       counselor_profiles: {
         Row: {
           bio: string | null
+          certifications: string[] | null
           created_at: string | null
           email: string
           experience_years: number | null
@@ -62,11 +117,15 @@ export type Database = {
           hourly_rate: number | null
           id: string
           is_available: boolean | null
+          languages: string[] | null
           phone: string | null
           profile_completion: number | null
           profile_picture_url: string | null
           qualifications: string | null
+          rating: number | null
           specialization: string[] | null
+          total_reviews: number | null
+          total_sessions: number | null
           updated_at: string | null
           user_id: string
           verification_document_url: string | null
@@ -74,6 +133,7 @@ export type Database = {
         }
         Insert: {
           bio?: string | null
+          certifications?: string[] | null
           created_at?: string | null
           email: string
           experience_years?: number | null
@@ -81,11 +141,15 @@ export type Database = {
           hourly_rate?: number | null
           id?: string
           is_available?: boolean | null
+          languages?: string[] | null
           phone?: string | null
           profile_completion?: number | null
           profile_picture_url?: string | null
           qualifications?: string | null
+          rating?: number | null
           specialization?: string[] | null
+          total_reviews?: number | null
+          total_sessions?: number | null
           updated_at?: string | null
           user_id: string
           verification_document_url?: string | null
@@ -93,6 +157,7 @@ export type Database = {
         }
         Update: {
           bio?: string | null
+          certifications?: string[] | null
           created_at?: string | null
           email?: string
           experience_years?: number | null
@@ -100,11 +165,15 @@ export type Database = {
           hourly_rate?: number | null
           id?: string
           is_available?: boolean | null
+          languages?: string[] | null
           phone?: string | null
           profile_completion?: number | null
           profile_picture_url?: string | null
           qualifications?: string | null
+          rating?: number | null
           specialization?: string[] | null
+          total_reviews?: number | null
+          total_sessions?: number | null
           updated_at?: string | null
           user_id?: string
           verification_document_url?: string | null
@@ -112,52 +181,131 @@ export type Database = {
         }
         Relationships: []
       }
+      reviews: {
+        Row: {
+          comment: string | null
+          counselor_id: string
+          created_at: string | null
+          id: string
+          rating: number
+          session_id: string
+          student_id: string
+        }
+        Insert: {
+          comment?: string | null
+          counselor_id: string
+          created_at?: string | null
+          id?: string
+          rating: number
+          session_id: string
+          student_id: string
+        }
+        Update: {
+          comment?: string | null
+          counselor_id?: string
+          created_at?: string | null
+          id?: string
+          rating?: number
+          session_id?: string
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_counselor_id_fkey"
+            columns: ["counselor_id"]
+            isOneToOne: false
+            referencedRelation: "counselor_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reviews_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: true
+            referencedRelation: "counseling_sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reviews_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "student_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       student_profiles: {
         Row: {
+          budget_max: number | null
+          budget_min: number | null
           career_goals: string | null
           created_at: string | null
           date_of_birth: string | null
+          education_level: string | null
           email: string
           full_name: string
+          gender: string | null
           grade: string | null
           id: string
           interests: string[] | null
+          learning_preferences: string[] | null
           phone: string | null
+          preferred_countries: string[] | null
+          preferred_courses: string[] | null
           profile_completion: number | null
           profile_picture_url: string | null
           school: string | null
+          skills: string[] | null
+          stream: string | null
           updated_at: string | null
           user_id: string
         }
         Insert: {
+          budget_max?: number | null
+          budget_min?: number | null
           career_goals?: string | null
           created_at?: string | null
           date_of_birth?: string | null
+          education_level?: string | null
           email: string
           full_name: string
+          gender?: string | null
           grade?: string | null
           id?: string
           interests?: string[] | null
+          learning_preferences?: string[] | null
           phone?: string | null
+          preferred_countries?: string[] | null
+          preferred_courses?: string[] | null
           profile_completion?: number | null
           profile_picture_url?: string | null
           school?: string | null
+          skills?: string[] | null
+          stream?: string | null
           updated_at?: string | null
           user_id: string
         }
         Update: {
+          budget_max?: number | null
+          budget_min?: number | null
           career_goals?: string | null
           created_at?: string | null
           date_of_birth?: string | null
+          education_level?: string | null
           email?: string
           full_name?: string
+          gender?: string | null
           grade?: string | null
           id?: string
           interests?: string[] | null
+          learning_preferences?: string[] | null
           phone?: string | null
+          preferred_countries?: string[] | null
+          preferred_courses?: string[] | null
           profile_completion?: number | null
           profile_picture_url?: string | null
           school?: string | null
+          skills?: string[] | null
+          stream?: string | null
           updated_at?: string | null
           user_id?: string
         }
