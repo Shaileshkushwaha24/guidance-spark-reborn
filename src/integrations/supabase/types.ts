@@ -195,6 +195,207 @@ export type Database = {
         }
         Relationships: []
       }
+      questions: {
+        Row: {
+          correct_option_id: string
+          created_at: string | null
+          explanation: string | null
+          id: string
+          options: Json
+          order_index: number | null
+          points: number | null
+          question_text: string
+          quiz_id: string
+        }
+        Insert: {
+          correct_option_id: string
+          created_at?: string | null
+          explanation?: string | null
+          id?: string
+          options: Json
+          order_index?: number | null
+          points?: number | null
+          question_text: string
+          quiz_id: string
+        }
+        Update: {
+          correct_option_id?: string
+          created_at?: string | null
+          explanation?: string | null
+          id?: string
+          options?: Json
+          order_index?: number | null
+          points?: number | null
+          question_text?: string
+          quiz_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "questions_quiz_id_fkey"
+            columns: ["quiz_id"]
+            isOneToOne: false
+            referencedRelation: "quizzes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quiz_answers: {
+        Row: {
+          answered_at: string | null
+          attempt_id: string
+          id: string
+          is_correct: boolean | null
+          is_skipped: boolean | null
+          question_id: string
+          selected_option_id: string | null
+        }
+        Insert: {
+          answered_at?: string | null
+          attempt_id: string
+          id?: string
+          is_correct?: boolean | null
+          is_skipped?: boolean | null
+          question_id: string
+          selected_option_id?: string | null
+        }
+        Update: {
+          answered_at?: string | null
+          attempt_id?: string
+          id?: string
+          is_correct?: boolean | null
+          is_skipped?: boolean | null
+          question_id?: string
+          selected_option_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quiz_answers_attempt_id_fkey"
+            columns: ["attempt_id"]
+            isOneToOne: false
+            referencedRelation: "quiz_attempts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quiz_answers_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quiz_attempts: {
+        Row: {
+          correct_answers: number | null
+          created_at: string | null
+          ended_at: string | null
+          id: string
+          quiz_id: string
+          recommended_level:
+            | Database["public"]["Enums"]["quiz_difficulty"]
+            | null
+          score_percentage: number | null
+          skipped_questions: number | null
+          started_at: string | null
+          status: string | null
+          time_taken_seconds: number | null
+          total_questions: number | null
+          user_id: string
+          wrong_answers: number | null
+        }
+        Insert: {
+          correct_answers?: number | null
+          created_at?: string | null
+          ended_at?: string | null
+          id?: string
+          quiz_id: string
+          recommended_level?:
+            | Database["public"]["Enums"]["quiz_difficulty"]
+            | null
+          score_percentage?: number | null
+          skipped_questions?: number | null
+          started_at?: string | null
+          status?: string | null
+          time_taken_seconds?: number | null
+          total_questions?: number | null
+          user_id: string
+          wrong_answers?: number | null
+        }
+        Update: {
+          correct_answers?: number | null
+          created_at?: string | null
+          ended_at?: string | null
+          id?: string
+          quiz_id?: string
+          recommended_level?:
+            | Database["public"]["Enums"]["quiz_difficulty"]
+            | null
+          score_percentage?: number | null
+          skipped_questions?: number | null
+          started_at?: string | null
+          status?: string | null
+          time_taken_seconds?: number | null
+          total_questions?: number | null
+          user_id?: string
+          wrong_answers?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quiz_attempts_quiz_id_fkey"
+            columns: ["quiz_id"]
+            isOneToOne: false
+            referencedRelation: "quizzes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quizzes: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          difficulty: Database["public"]["Enums"]["quiz_difficulty"]
+          duration_minutes: number
+          id: string
+          is_active: boolean | null
+          passing_score: number | null
+          skill_id: string
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          difficulty?: Database["public"]["Enums"]["quiz_difficulty"]
+          duration_minutes?: number
+          id?: string
+          is_active?: boolean | null
+          passing_score?: number | null
+          skill_id: string
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          difficulty?: Database["public"]["Enums"]["quiz_difficulty"]
+          duration_minutes?: number
+          id?: string
+          is_active?: boolean | null
+          passing_score?: number | null
+          skill_id?: string
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quizzes_skill_id_fkey"
+            columns: ["skill_id"]
+            isOneToOne: false
+            referencedRelation: "skills"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       reviews: {
         Row: {
           comment: string | null
@@ -253,6 +454,36 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      skills: {
+        Row: {
+          category: string | null
+          created_at: string | null
+          description: string | null
+          icon: string | null
+          id: string
+          name: string
+          updated_at: string | null
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string | null
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name: string
+          updated_at?: string | null
+        }
+        Update: {
+          category?: string | null
+          created_at?: string | null
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name?: string
+          updated_at?: string | null
+        }
+        Relationships: []
       }
       student_profiles: {
         Row: {
@@ -470,6 +701,7 @@ export type Database = {
     }
     Enums: {
       app_role: "student" | "counselor" | "admin"
+      quiz_difficulty: "beginner" | "intermediate" | "advanced"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -598,6 +830,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["student", "counselor", "admin"],
+      quiz_difficulty: ["beginner", "intermediate", "advanced"],
     },
   },
 } as const
