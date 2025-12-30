@@ -14,6 +14,66 @@ export type Database = {
   }
   public: {
     Tables: {
+      career_paths: {
+        Row: {
+          category: string
+          created_at: string
+          demand_score: number | null
+          education_required: string | null
+          experience_level: string | null
+          full_description: string | null
+          growth_rate: string
+          icon: string | null
+          id: string
+          is_active: boolean
+          salary_max: number
+          salary_min: number
+          short_description: string
+          skills: string[]
+          title: string
+          tools_technologies: string[] | null
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          demand_score?: number | null
+          education_required?: string | null
+          experience_level?: string | null
+          full_description?: string | null
+          growth_rate: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          salary_max: number
+          salary_min: number
+          short_description: string
+          skills?: string[]
+          title: string
+          tools_technologies?: string[] | null
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          demand_score?: number | null
+          education_required?: string | null
+          experience_level?: string | null
+          full_description?: string | null
+          growth_rate?: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          salary_max?: number
+          salary_min?: number
+          short_description?: string
+          skills?: string[]
+          title?: string
+          tools_technologies?: string[] | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       counseling_sessions: {
         Row: {
           counselor_id: string
